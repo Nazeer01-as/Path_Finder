@@ -1,0 +1,23 @@
+{
+  "name": "pathfinder-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PathFinder - Student Opportunity & Career Pathway Platform",
+  "scripts": {
+    "client:dev": "npm --prefix client run dev",
+    "client:build": "npm --prefix client run build",
+    "server:dev": "npm --prefix server run dev",
+    "server:start": "npm --prefix server start",
+    "seed": "npm --prefix server run seed"
+  },
+  "keywords": [
+    "education",
+    "career",
+    "pathways",
+    "scholarships",
+    "entrance-exams",
+    "opportunities"
+  ],
+  "author": "Nazeer",
+  "license": "ISC"
+}
