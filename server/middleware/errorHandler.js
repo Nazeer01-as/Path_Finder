@@ -34,6 +34,18 @@ const errorHandler = (err, req, res, next) => {
     message = 'Authentication token expired, please log in again';
   }
 
+  // CORS violation
+  if (err.message && err.message.startsWith('CORS blocked')) {
+    statusCode = 403;
+    message = 'Access forbidden: Origin not permitted by CORS policy';
+  }
+
+  // Rate limit error (429)
+  if (err.statusCode === 429 || err.status === 429) {
+    statusCode = 429;
+    message = err.message || 'Too many requests, please try again later.';
+  }
+
   res.status(statusCode).json({
     success: false,
     message,

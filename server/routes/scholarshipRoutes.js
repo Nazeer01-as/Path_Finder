@@ -7,17 +7,19 @@ const {
   updateScholarship,
   deleteScholarship
 } = require('../controllers/scholarshipController');
-const { protect, adminOnly } = require('../middleware/authMiddleware');
+const { protect, optionalAuth, adminOnly } = require('../middleware/authMiddleware');
+const { validateScholarship } = require('../middleware/validators');
 
 router
   .route('/')
-  .get(getScholarships)
-  .post(protect, adminOnly, createScholarship);
+  .get(optionalAuth, getScholarships)
+  .post(protect, adminOnly, validateScholarship, createScholarship);
 
 router
   .route('/:id')
-  .get(getScholarshipById)
-  .put(protect, adminOnly, updateScholarship)
+  .get(optionalAuth, getScholarshipById)
+  .put(protect, adminOnly, validateScholarship, updateScholarship)
   .delete(protect, adminOnly, deleteScholarship);
 
 module.exports = router;
+

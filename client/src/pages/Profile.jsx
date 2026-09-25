@@ -9,6 +9,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { EDUCATION_LEVELS } from '../constants/masterData';
 
 const Profile = () => {
   const { user, updateProfile } = useAuth();
@@ -30,16 +31,7 @@ const Profile = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  const educationOptions = [
-    'Class 10',
-    'Intermediate / 11th–12th',
-    'Diploma / Polytechnic',
-    'ITI',
-    'Undergraduate',
-    'Postgraduate',
-    'Engineering',
-    'Degree Student'
-  ];
+  const educationOptions = EDUCATION_LEVELS;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

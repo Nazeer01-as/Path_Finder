@@ -75,6 +75,13 @@ const scholarshipSchema = new mongoose.Schema(
   }
 );
 
+// Text search index (preserved)
 scholarshipSchema.index({ name: 'text', provider: 'text', description: 'text' });
+
+// Query optimization indexes
+scholarshipSchema.index({ isActive: 1, createdAt: -1 });
+scholarshipSchema.index({ deadline: 1 });
+scholarshipSchema.index({ state: 1 });
+scholarshipSchema.index({ educationLevels: 1 });
 
 module.exports = mongoose.model('Scholarship', scholarshipSchema);

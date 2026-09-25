@@ -65,6 +65,11 @@ const careerSchema = new mongoose.Schema(
   }
 );
 
+// Text search index (preserved)
 careerSchema.index({ title: 'text', sector: 'text', description: 'text' });
+
+// Query optimization indexes
+careerSchema.index({ isActive: 1, createdAt: -1 });
+careerSchema.index({ sector: 1 });
 
 module.exports = mongoose.model('Career', careerSchema);

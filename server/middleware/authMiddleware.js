@@ -6,9 +6,12 @@ const protect = async (req, res, next) => {
 
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
+    req.headers.authorization.toLowerCase().startsWith('bearer')
   ) {
-    token = req.headers.authorization.split(' ')[1];
+    const parts = req.headers.authorization.split(' ');
+    if (parts.length === 2 && parts[1] && parts[1] !== 'null' && parts[1] !== 'undefined') {
+      token = parts[1].trim();
+    }
   }
 
   if (!token) {
@@ -19,10 +22,11 @@ const protect = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET || 'pathfinder_super_secret_jwt_key_2026_student_platform'
-    );
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET environment variable is missing.');
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(decoded.id).select('-password');
     if (!user) {
@@ -37,9 +41,43 @@ const protect = async (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: 'Not authorized, token validation failed.'
+      message: error.name === 'TokenExpiredError'
+        ? 'Authentication token expired, please log in again.'
+        : 'Not authorized, token validation failed.'
     });
   }
+};
+
+/**
+ * Optional Auth middleware - detects user if token provided, but doesn't block if absent
+ */
+const optionalAuth = async (req, res, next) => {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.toLowerCase().startsWith('bearer')
+  ) {
+    const parts = req.headers.authorization.split(' ');
+    if (parts.length === 2 && parts[1] && parts[1] !== 'null' && parts[1] !== 'undefined') {
+      token = parts[1].trim();
+    }
+  }
+
+  if (!token || !process.env.JWT_SECRET) {
+    return next();
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select('-password');
+    if (user) {
+      req.user = user;
+    }
+  } catch {
+    // Silently continue for unauthenticated/expired guests
+  }
+  next();
 };
 
 const adminOnly = (req, res, next) => {
@@ -54,5 +92,7 @@ const adminOnly = (req, res, next) => {
 
 module.exports = {
   protect,
+  optionalAuth,
   adminOnly
 };
+

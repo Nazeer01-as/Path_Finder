@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Compass, UserPlus, Lock, Mail, User, AlertCircle, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { EDUCATION_LEVELS } from '../constants/masterData';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -14,16 +15,7 @@ const Register = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const educationOptions = [
-    'Class 10',
-    'Intermediate / 11th–12th',
-    'Diploma / Polytechnic',
-    'ITI',
-    'Undergraduate',
-    'Postgraduate',
-    'Engineering',
-    'Degree Student'
-  ];
+  const educationOptions = EDUCATION_LEVELS;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,8 +33,7 @@ const Register = () => {
         name,
         email,
         password,
-        educationLevel,
-        role: 'student'
+        educationLevel
       });
       // Redirect to onboarding questionnaire to personalize recommendations
       navigate('/onboarding');

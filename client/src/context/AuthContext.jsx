@@ -21,17 +21,24 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = localStorage.getItem('pathfinder_token');
-      if (storedToken) {
+      if (storedToken && storedToken !== 'null' && storedToken !== 'undefined') {
         try {
           const res = await api.get('/auth/me');
-          setUser(res.data.data);
-          // Also fetch user bookmarks
-          const bmRes = await api.get('/bookmarks');
-          setBookmarks(bmRes.data.data || []);
+          if (res.data && res.data.data) {
+            setUser(res.data.data);
+            // Also fetch user bookmarks
+            const bmRes = await api.get('/bookmarks');
+            setBookmarks(bmRes.data?.data || []);
+          } else {
+            logout();
+          }
         } catch (err) {
           console.error('Failed to restore session:', err);
           logout();
         }
+      } else {
+        localStorage.removeItem('pathfinder_token');
+        localStorage.removeItem('pathfinder_user');
       }
       setLoading(false);
     };

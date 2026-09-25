@@ -6,6 +6,8 @@ const Course = require('../models/Course');
 const Career = require('../models/Career');
 const asyncHandler = require('../utils/asyncHandler');
 const { successResponse, errorResponse } = require('../utils/apiResponse');
+const { sanitizePagination } = require('../utils/pagination');
+const { logAudit } = require('../utils/auditLogger');
 
 // @desc    Get dashboard metrics & summary counts for Admin
 // @route   GET /api/admin/stats
@@ -74,9 +76,7 @@ exports.getUsers = asyncHandler(async (req, res) => {
     query.role = role;
   }
 
-  const pageNum = parseInt(page, 10) || 1;
-  const limitNum = parseInt(limit, 10) || 10;
-  const skip = (pageNum - 1) * limitNum;
+  const { pageNum, limitNum, skip } = sanitizePagination(page, limit, 10, 100);
 
   const total = await User.countDocuments(query);
   const users = await User.find(query)
@@ -99,18 +99,49 @@ exports.getUsers = asyncHandler(async (req, res) => {
 exports.updateUserRole = asyncHandler(async (req, res) => {
   const { role } = req.body;
   if (!['student', 'admin'].includes(role)) {
-    return errorResponse(res, 400, 'Invalid role');
+    return errorResponse(res, 400, 'Invalid role. Role must be student or admin.');
   }
 
-  const user = await User.findByIdAndUpdate(
-    req.params.id,
-    { role },
-    { new: true }
-  ).select('-password');
-
-  if (!user) {
+  const targetUser = await User.findById(req.params.id);
+  if (!targetUser) {
     return errorResponse(res, 404, 'User not found');
   }
 
-  return successResponse(res, 200, 'User role updated successfully', user);
+  // Protection: prevent removing/demoting the last administrator or removing own only-admin access
+  if (targetUser.role === 'admin' && role === 'student') {
+    const adminCount = await User.countDocuments({ role: 'admin' });
+    if (adminCount <= 1) {
+      return errorResponse(
+        res,
+        400,
+        'Action denied: Cannot remove or demote the last administrator in the system.'
+      );
+    }
+    if (req.user && req.user._id.toString() === targetUser._id.toString() && adminCount <= 1) {
+      return errorResponse(
+        res,
+        400,
+        'Action denied: You cannot remove your own administrator access as the only administrator.'
+      );
+    }
+  }
+
+  targetUser.role = role;
+  await targetUser.save();
+
+  const userObj = targetUser.toObject();
+  delete userObj.password;
+
+  if (req.user) {
+    await logAudit({
+      adminId: req.user._id,
+      action: 'CHANGE_USER_ROLE',
+      resource: 'User',
+      resourceId: targetUser._id,
+      details: { targetEmail: targetUser.email, newRole: role }
+    });
+  }
+
+  return successResponse(res, 200, 'User role updated successfully', userObj);
 });
+

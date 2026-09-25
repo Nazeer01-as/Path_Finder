@@ -10,6 +10,7 @@ import {
   Check
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { ALL_STATES_AND_UTS, EDUCATION_LEVELS, STREAMS, CAREER_SECTORS } from '../constants/masterData';
 
 const Onboarding = () => {
   const { user, updateProfile } = useAuth();
@@ -18,25 +19,21 @@ const Onboarding = () => {
   const [step, setStep] = useState(1);
   const [saving, setSaving] = useState(false);
 
-  // Step 1: Academic Information
+  // Step 1: Academic Information (neutral defaults)
   const [educationLevel, setEducationLevel] = useState(user?.educationLevel || 'Intermediate / 11th–12th');
-  const [classYear, setClassYear] = useState('12th Grade / 2nd Year');
-  const [stream, setStream] = useState('Science (MPC / Physics, Chem, Math)');
-  const [boardOrUniversity, setBoardOrUniversity] = useState('CBSE / State Board');
-  const [percentageOrCgpa, setPercentageOrCgpa] = useState('');
+  const [classYear, setClassYear] = useState(user?.classYear || '');
+  const [stream, setStream] = useState(user?.stream || '');
+  const [boardOrUniversity, setBoardOrUniversity] = useState(user?.boardOrUniversity || '');
+  const [percentageOrCgpa, setPercentageOrCgpa] = useState(user?.percentageOrCgpa || '');
 
-  // Step 2: Location & Preferences
-  const [state, setState] = useState('Telangana');
-  const [preferredStudyLocation, setPreferredStudyLocation] = useState('Home State / Pan India');
-  const [interests, setInterests] = useState([
-    'Computer Science',
-    'Artificial Intelligence',
-    'Space Tech'
-  ]);
+  // Step 2: Location & Preferences (neutral defaults, no hardcoded state or forced interests)
+  const [state, setState] = useState(user?.state || '');
+  const [preferredStudyLocation, setPreferredStudyLocation] = useState(user?.preferredStudyLocation || '');
+  const [interests, setInterests] = useState(user?.interests || []);
 
-  // Step 3: Career Interests & Skills
-  const [careerInterests, setCareerInterests] = useState(['Engineering', 'Computer Science']);
-  const [skills, setSkills] = useState(['Problem Solving', 'Mathematics']);
+  // Step 3: Career Interests & Skills (neutral defaults)
+  const [careerInterests, setCareerInterests] = useState(user?.careerInterests || []);
+  const [skills, setSkills] = useState(user?.skills || []);
 
   const careerOptionsList = [
     'Engineering',
@@ -105,7 +102,8 @@ const Onboarding = () => {
         preferredStudyLocation,
         interests,
         careerInterests,
-        skills
+        skills,
+        onboardingCompleted: true
       });
       navigate('/dashboard');
     } catch (err) {
@@ -250,11 +248,17 @@ const Onboarding = () => {
                   </label>
                   <input
                     type="text"
+                    list="indian-states-list"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                     placeholder="e.g. Telangana, Andhra Pradesh, Delhi..."
                     className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 outline-hidden font-medium"
                   />
+                  <datalist id="indian-states-list">
+                    {ALL_STATES_AND_UTS.map((s) => (
+                      <option key={s} value={s} />
+                    ))}
+                  </datalist>
                 </div>
 
                 <div>

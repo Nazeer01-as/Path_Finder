@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
+  Home,
   Compass,
   Search,
   BookOpen,
@@ -31,6 +32,7 @@ const Navbar = () => {
   };
 
   const navLinks = [
+    { to: '/', label: 'Home', icon: Home, end: true },
     { to: '/opportunities', label: 'Opportunities', icon: Search },
     { to: '/exams', label: 'Examinations', icon: Award },
     { to: '/scholarships', label: 'Scholarships', icon: BookOpen },
@@ -66,6 +68,7 @@ const Navbar = () => {
                 <NavLink
                   key={link.to}
                   to={link.to}
+                  end={link.end}
                   className={({ isActive }) =>
                     `inline-flex items-center gap-1.5 px-3 py-2 text-sm font-semibold rounded-xl transition-all ${
                       isActive

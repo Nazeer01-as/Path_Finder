@@ -24,5 +24,7 @@ const bookmarkSchema = new mongoose.Schema(
 
 // Compound index to ensure a user can only bookmark a specific item once
 bookmarkSchema.index({ userId: 1, itemType: 1, itemId: 1 }, { unique: true });
+// Fast user bookmark list retrieval index
+bookmarkSchema.index({ userId: 1, createdAt: -1 });
 
 module.exports = mongoose.model('Bookmark', bookmarkSchema);

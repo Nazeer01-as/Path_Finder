@@ -79,6 +79,12 @@ const courseSchema = new mongoose.Schema(
   }
 );
 
+// Text search index (preserved)
 courseSchema.index({ name: 'text', category: 'text' });
+
+// Query optimization indexes
+courseSchema.index({ isActive: 1, createdAt: -1 });
+courseSchema.index({ educationLevels: 1 });
+courseSchema.index({ category: 1 });
 
 module.exports = mongoose.model('Course', courseSchema);

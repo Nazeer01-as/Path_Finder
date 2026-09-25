@@ -90,6 +90,14 @@ const examinationSchema = new mongoose.Schema(
   }
 );
 
+// Text search index (preserved)
 examinationSchema.index({ name: 'text', conductingBody: 'text', description: 'text' });
+
+// Query optimization indexes
+examinationSchema.index({ isActive: 1, createdAt: -1 });
+examinationSchema.index({ applicationLastDate: 1 });
+examinationSchema.index({ examDate: 1 });
+examinationSchema.index({ educationLevels: 1 });
+examinationSchema.index({ category: 1 });
 
 module.exports = mongoose.model('Examination', examinationSchema);

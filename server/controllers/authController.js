@@ -6,9 +6,12 @@ const { successResponse, errorResponse } = require('../utils/apiResponse');
 
 // Generate JWT Helper
 const generateToken = (id) => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is missing.');
+  }
   return jwt.sign(
     { id },
-    process.env.JWT_SECRET || 'pathfinder_super_secret_jwt_key_2026_student_platform',
+    process.env.JWT_SECRET,
     { expiresIn: '30d' }
   );
 };
@@ -32,12 +35,14 @@ exports.register = asyncHandler(async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
+  // Public registration strictly creates student roles (prevents privilege escalation)
   const user = await User.create({
     name,
     email,
     password: hashedPassword,
-    role: role === 'admin' ? 'admin' : 'student',
-    educationLevel: educationLevel || ''
+    role: 'student',
+    educationLevel: educationLevel || '',
+    onboardingCompleted: false
   });
 
   const token = generateToken(user._id);
@@ -105,7 +110,8 @@ exports.updateProfile = asyncHandler(async (req, res) => {
     'preferredStudyLocation',
     'interests',
     'skills',
-    'careerInterests'
+    'careerInterests',
+    'onboardingCompleted'
   ];
 
   const updates = {};

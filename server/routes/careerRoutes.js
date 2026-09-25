@@ -7,17 +7,19 @@ const {
   updateCareer,
   deleteCareer
 } = require('../controllers/careerController');
-const { protect, adminOnly } = require('../middleware/authMiddleware');
+const { protect, optionalAuth, adminOnly } = require('../middleware/authMiddleware');
+const { validateCareer } = require('../middleware/validators');
 
 router
   .route('/')
-  .get(getCareers)
-  .post(protect, adminOnly, createCareer);
+  .get(optionalAuth, getCareers)
+  .post(protect, adminOnly, validateCareer, createCareer);
 
 router
   .route('/:id')
-  .get(getCareerById)
-  .put(protect, adminOnly, updateCareer)
+  .get(optionalAuth, getCareerById)
+  .put(protect, adminOnly, validateCareer, updateCareer)
   .delete(protect, adminOnly, deleteCareer);
 
 module.exports = router;
+

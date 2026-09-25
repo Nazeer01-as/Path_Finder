@@ -65,6 +65,10 @@ const userSchema = new mongoose.Schema(
     careerInterests: {
       type: [String],
       default: []
+    },
+    onboardingCompleted: {
+      type: Boolean,
+      default: false
     }
   },
   {

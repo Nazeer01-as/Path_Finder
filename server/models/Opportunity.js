@@ -84,7 +84,13 @@ const opportunitySchema = new mongoose.Schema(
   }
 );
 
-// Search index
+// Search text index (preserved)
 opportunitySchema.index({ title: 'text', description: 'text', tags: 'text', organization: 'text' });
+
+// Query optimization indexes
+opportunitySchema.index({ isActive: 1, createdAt: -1 });
+opportunitySchema.index({ deadline: 1 });
+opportunitySchema.index({ educationLevels: 1 });
+opportunitySchema.index({ location: 1 });
 
 module.exports = mongoose.model('Opportunity', opportunitySchema);

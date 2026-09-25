@@ -7,17 +7,19 @@ const {
   updateOpportunity,
   deleteOpportunity
 } = require('../controllers/opportunityController');
-const { protect, adminOnly } = require('../middleware/authMiddleware');
+const { protect, optionalAuth, adminOnly } = require('../middleware/authMiddleware');
+const { validateOpportunity } = require('../middleware/validators');
 
 router
   .route('/')
-  .get(getOpportunities)
-  .post(protect, adminOnly, createOpportunity);
+  .get(optionalAuth, getOpportunities)
+  .post(protect, adminOnly, validateOpportunity, createOpportunity);
 
 router
   .route('/:id')
-  .get(getOpportunityById)
-  .put(protect, adminOnly, updateOpportunity)
+  .get(optionalAuth, getOpportunityById)
+  .put(protect, adminOnly, validateOpportunity, updateOpportunity)
   .delete(protect, adminOnly, deleteOpportunity);
 
 module.exports = router;
+

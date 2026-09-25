@@ -25,75 +25,111 @@ const seedDB = async () => {
     await mongoose.connect(mongoUri);
     console.log('[Seed] Connected to database successfully.');
 
-    // Clear existing collection data
-    await Opportunity.deleteMany({});
-    await Examination.deleteMany({});
-    await Scholarship.deleteMany({});
-    await Course.deleteMany({});
-    await Career.deleteMany({});
-    await Bookmark.deleteMany({});
-    await User.deleteMany({});
-    console.log('[Seed] Cleared existing data.');
+    const isReset = process.argv.includes('--reset');
 
-    // 1. Create Default Admin & Sample Student
+    if (isReset) {
+      console.log('[Seed] ⚠️  Running in DESTRUCTIVE RESET mode (--reset). Purging existing collections...');
+      await Opportunity.deleteMany({});
+      await Examination.deleteMany({});
+      await Scholarship.deleteMany({});
+      await Course.deleteMany({});
+      await Career.deleteMany({});
+      await Bookmark.deleteMany({});
+      await User.deleteMany({});
+      console.log('[Seed] Cleared existing data.');
+    } else {
+      console.log('[Seed] 🛡️  Running in SAFE NON-DESTRUCTIVE mode. Existing records will be preserved.');
+    }
+
     const salt = await bcrypt.genSalt(10);
     const adminPassword = await bcrypt.hash('Admin@123', salt);
     const studentPassword = await bcrypt.hash('Student@123', salt);
 
-    const adminUser = await User.create({
-      name: 'PathFinder Admin',
-      email: 'admin@pathfinder.com',
-      password: adminPassword,
-      role: 'admin',
-      educationLevel: 'Postgraduate',
-      state: 'All India'
-    });
+    // 1. Admin and Student Users
+    let adminUser = await User.findOne({ email: 'admin@pathfinder.com' });
+    if (!adminUser) {
+      adminUser = await User.create({
+        name: 'PathFinder Admin',
+        email: 'admin@pathfinder.com',
+        password: adminPassword,
+        role: 'admin',
+        educationLevel: 'Postgraduate',
+        state: 'All India',
+        onboardingCompleted: true
+      });
+      console.log(`[Seed] Created Admin: admin@pathfinder.com / Admin@123`);
+    } else {
+      console.log(`[Seed] Admin user already exists: admin@pathfinder.com`);
+    }
 
-    const studentUser = await User.create({
-      name: 'Aarav Sharma',
-      email: 'student@pathfinder.com',
-      password: studentPassword,
-      role: 'student',
-      educationLevel: 'Intermediate / 11th–12th',
-      classYear: '12th Grade',
-      stream: 'Science (MPC)',
-      boardOrUniversity: 'CBSE',
-      percentageOrCgpa: '88%',
-      state: 'Telangana',
-      preferredStudyLocation: 'Hyderabad / Bengaluru',
-      interests: ['Engineering', 'Computer Science', 'Artificial Intelligence', 'Space Tech'],
-      skills: ['Python Basics', 'Mathematics', 'Problem Solving'],
-      careerInterests: ['Engineering', 'Computer Science', 'Artificial Intelligence']
-    });
+    let studentUser = await User.findOne({ email: 'student@pathfinder.com' });
+    if (!studentUser) {
+      studentUser = await User.create({
+        name: 'Aarav Sharma',
+        email: 'student@pathfinder.com',
+        password: studentPassword,
+        role: 'student',
+        educationLevel: 'Intermediate / 11th–12th',
+        classYear: '12th Grade',
+        stream: 'Science (MPC)',
+        boardOrUniversity: 'CBSE',
+        percentageOrCgpa: '88%',
+        state: 'Telangana',
+        preferredStudyLocation: 'Hyderabad / Bengaluru',
+        interests: ['Engineering', 'Computer Science', 'Artificial Intelligence', 'Space Tech'],
+        skills: ['Python Basics', 'Mathematics', 'Problem Solving'],
+        careerInterests: ['Engineering', 'Computer Science', 'Artificial Intelligence'],
+        onboardingCompleted: true
+      });
+      console.log(`[Seed] Created Student: student@pathfinder.com / Student@123`);
+    } else {
+      console.log(`[Seed] Student user already exists: student@pathfinder.com`);
+    }
 
-    console.log(`[Seed] Created Admin: admin@pathfinder.com / Admin@123`);
-    console.log(`[Seed] Created Student: student@pathfinder.com / Student@123`);
+    // 2. Safe upsert helper function for content collections
+    const safeUpsertMany = async (Model, items, keyField, label) => {
+      let inserted = 0;
+      for (const item of items) {
+        const filter = { [keyField]: item[keyField] };
+        const existing = await Model.findOne(filter);
+        if (!existing) {
+          await Model.create(item);
+          inserted++;
+        }
+      }
+      console.log(`[Seed] Processed ${label}: ${inserted} new records inserted, ${items.length - inserted} preserved.`);
+    };
 
-    // 2. Insert Opportunities, Exams, Scholarships, Courses, Careers
-    await Opportunity.insertMany(opportunities);
-    console.log(`[Seed] Inserted ${opportunities.length} opportunities.`);
+    if (isReset) {
+      await Opportunity.insertMany(opportunities);
+      await Examination.insertMany(examinations);
+      await Scholarship.insertMany(scholarships);
+      await Course.insertMany(courses);
+      await Career.insertMany(careers);
+      console.log(`[Seed] Reset insertion complete: ${opportunities.length} opps, ${examinations.length} exams, ${scholarships.length} scholarships, ${courses.length} courses, ${careers.length} careers.`);
+    } else {
+      await safeUpsertMany(Opportunity, opportunities, 'title', 'Opportunities');
+      await safeUpsertMany(Examination, examinations, 'name', 'Examinations');
+      await safeUpsertMany(Scholarship, scholarships, 'name', 'Scholarships');
+      await safeUpsertMany(Course, courses, 'name', 'Courses');
+      await safeUpsertMany(Career, careers, 'title', 'Careers');
+    }
 
-    await Examination.insertMany(examinations);
-    console.log(`[Seed] Inserted ${examinations.length} examinations.`);
-
-    await Scholarship.insertMany(scholarships);
-    console.log(`[Seed] Inserted ${scholarships.length} scholarships.`);
-
-    await Course.insertMany(courses);
-    console.log(`[Seed] Inserted ${courses.length} courses.`);
-
-    await Career.insertMany(careers);
-    console.log(`[Seed] Inserted ${careers.length} careers.`);
-
-    // 3. Create a sample bookmark for student
+    // 3. Create a sample bookmark for student if not existing
     const sampleExam = await Examination.findOne({ name: /JEE Main/ });
-    if (sampleExam) {
-      await Bookmark.create({
+    if (sampleExam && studentUser) {
+      const existingBookmark = await Bookmark.findOne({
         userId: studentUser._id,
-        itemType: 'exam',
         itemId: sampleExam._id
       });
-      console.log('[Seed] Created sample bookmark for student.');
+      if (!existingBookmark) {
+        await Bookmark.create({
+          userId: studentUser._id,
+          itemType: 'exam',
+          itemId: sampleExam._id
+        });
+        console.log('[Seed] Created sample bookmark for student.');
+      }
     }
 
     console.log('[Seed] ✅ Database seeding finished successfully!');

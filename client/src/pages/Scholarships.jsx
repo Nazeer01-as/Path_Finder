@@ -6,6 +6,7 @@ import ScholarshipCard from '../components/cards/ScholarshipCard';
 import Pagination from '../components/common/Pagination';
 import EmptyState from '../components/common/EmptyState';
 import { GridSkeleton } from '../components/common/LoadingSkeleton';
+import { ALL_STATES_AND_UTS } from '../constants/masterData';
 
 const Scholarships = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,7 +29,7 @@ const Scholarships = () => {
     'Postgraduate'
   ];
 
-  const states = ['All India', 'Telangana', 'Andhra Pradesh', 'Maharashtra', 'Karnataka', 'Delhi'];
+  const states = ALL_STATES_AND_UTS;
 
   useEffect(() => {
     const fetchScholarships = async () => {
