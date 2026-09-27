@@ -27,7 +27,7 @@ const getBaseURL = () => {
 
 const api = axios.create({
   baseURL: getBaseURL(),
-  timeout: 30000, // 30s timeout to accommodate Render free-tier spin-up
+  timeout: 60000, // 60s timeout to accommodate Render free-tier spin-up
   headers: {
     'Content-Type': 'application/json'
   }

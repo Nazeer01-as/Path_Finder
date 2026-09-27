@@ -28,15 +28,15 @@ const getOriginWhitelist = () => {
       if (trimmed) list.push(trimmed);
     });
   }
-  // Allow local development ports if in development environment
-  if (process.env.NODE_ENV !== 'production') {
-    list.push(
-      'http://localhost:5173',
-      'http://localhost:3000',
-      'http://127.0.0.1:5173',
-      'http://127.0.0.1:3000'
-    );
-  }
+  // Allow standard local development ports
+  list.push(
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://localhost:5000',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:5000'
+  );
   return [...new Set(list)];
 };
 
@@ -46,13 +46,22 @@ const corsOptions = {
     if (!origin) return callback(null, true);
 
     const allowedOrigins = getOriginWhitelist();
-    const isAllowed =
-      allowedOrigins.includes(origin) ||
-      (process.env.NODE_ENV !== 'production' &&
-        (/^http:\/\/localhost(:\d+)?$/.test(origin) || /^http:\/\/127\.0\.0\.1(:\d+)?$/.test(origin)));
-
-    if (isAllowed) {
+    if (allowedOrigins.includes(origin)) {
       return callback(null, true);
+    }
+
+    try {
+      const parsed = new URL(origin);
+      // Allow all Vercel deployments (*.vercel.app and preview domains)
+      if (parsed.hostname === 'vercel.app' || parsed.hostname.endsWith('.vercel.app')) {
+        return callback(null, true);
+      }
+      // Allow localhost / 127.0.0.1 on any port
+      if (parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1') {
+        return callback(null, true);
+      }
+    } catch {
+      // Ignore URL parsing errors
     }
 
     return callback(new Error(`CORS blocked for origin: ${origin}`), false);

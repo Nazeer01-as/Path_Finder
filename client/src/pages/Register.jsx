@@ -37,7 +37,17 @@ const Register = () => {
       });
       navigate('/onboarding');
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else if (err.response?.data?.errors?.length) {
+        setError(err.response.data.errors[0].message);
+      } else if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
+        setError('Server is taking longer to respond. Cloud services may be waking up, please wait a moment and try again.');
+      } else if (err.message === 'Network Error' || !err.response) {
+        setError('Unable to reach the server. Please verify your internet connection or that the backend is running.');
+      } else {
+        setError('Registration failed. Please try again.');
+      }
     } finally {
       setSubmitting(false);
     }
