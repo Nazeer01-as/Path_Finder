@@ -38,40 +38,40 @@ const AdminLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
+    <div className="min-h-screen bg-[#0b0b0a] text-stone-100 flex">
       {/* Mobile backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs md:hidden"
           onClick={() => setSidebarOpen(false)}
         ></div>
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white flex flex-col justify-between transition-transform duration-300 md:static md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#121210] border-r border-stone-800 text-white flex flex-col justify-between transition-transform duration-300 md:static md:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div>
           {/* Logo & Brand */}
-          <div className="p-6 border-b border-slate-800 flex items-center justify-between">
+          <div className="p-6 border-b border-stone-800 flex items-center justify-between">
             <Link to="/admin" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-500 to-indigo-500 flex items-center justify-center text-white shadow-md">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center text-stone-950 shadow-md shadow-amber-500/20 font-bold">
                 <Shield className="w-5 h-5" />
               </div>
               <div>
                 <span className="font-black text-lg tracking-tight text-white">
-                  Path<span className="text-purple-400">Admin</span>
+                  Path<span className="text-amber-400">Admin</span>
                 </span>
-                <span className="block text-[10px] text-purple-300 font-semibold tracking-wider uppercase">
+                <span className="block text-[10px] text-amber-300/80 font-semibold tracking-wider uppercase">
                   Management Console
                 </span>
               </div>
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="md:hidden text-slate-400 hover:text-white"
+              className="md:hidden text-stone-400 hover:text-white"
             >
               <X className="w-5 h-5" />
             </button>
@@ -79,7 +79,7 @@ const AdminLayout = () => {
 
           {/* Navigation links */}
           <nav className="p-4 space-y-1">
-            <p className="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            <p className="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-stone-500">
               Content & Database
             </p>
             {navItems.map((item) => {
@@ -93,8 +93,8 @@ const AdminLayout = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                       isActive
-                        ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                        ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 font-bold shadow-md shadow-amber-500/20'
+                        : 'text-stone-400 hover:text-white hover:bg-stone-800/60'
                     }`
                   }
                 >
@@ -107,22 +107,22 @@ const AdminLayout = () => {
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-slate-800 space-y-2">
+        <div className="p-4 border-t border-stone-800 space-y-2">
           <Link
             to="/dashboard"
-            className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors"
+            className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-stone-400 hover:text-white hover:bg-stone-800/60 rounded-xl transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Return to Student App
           </Link>
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between px-3">
+          <div className="pt-2 border-t border-stone-800/80 flex items-center justify-between px-3">
             <div className="truncate max-w-[140px]">
               <p className="text-xs font-bold text-white truncate">{user?.name}</p>
-              <p className="text-[10px] text-slate-400 truncate">{user?.email}</p>
+              <p className="text-[10px] text-stone-400 truncate">{user?.email}</p>
             </div>
             <button
               onClick={handleLogout}
-              className="p-1.5 text-slate-400 hover:text-rose-400 rounded-lg hover:bg-slate-800"
+              className="p-1.5 text-stone-400 hover:text-rose-400 rounded-lg hover:bg-stone-800"
               title="Sign Out"
             >
               <LogOut className="w-4 h-4" />
@@ -132,22 +132,22 @@ const AdminLayout = () => {
       </aside>
 
       {/* Main Admin Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#0b0b0a]">
         {/* Top Navbar */}
-        <header className="bg-white border-b border-slate-200/80 px-4 sm:px-6 py-3.5 flex items-center justify-between">
+        <header className="bg-[#121210] border-b border-stone-800 px-4 sm:px-6 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100"
+              className="md:hidden p-2 rounded-xl text-stone-300 hover:bg-stone-800"
             >
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-950/40 text-amber-300 border border-amber-800/50">
                 Administrator
               </span>
-              <span className="text-xs text-slate-400 hidden sm:inline">•</span>
-              <span className="text-xs font-medium text-slate-500 hidden sm:inline">
+              <span className="text-xs text-stone-600 hidden sm:inline">•</span>
+              <span className="text-xs font-medium text-stone-400 hidden sm:inline">
                 Live Database Management
               </span>
             </div>
@@ -156,16 +156,16 @@ const AdminLayout = () => {
           <div className="flex items-center gap-3">
             <Link
               to="/"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-800 bg-stone-900 text-xs font-semibold text-stone-300 hover:bg-stone-800 hover:text-amber-400 transition-colors"
             >
-              <Compass className="w-3.5 h-3.5 text-indigo-600" />
+              <Compass className="w-3.5 h-3.5 text-amber-400" />
               Live Website
             </Link>
           </div>
         </header>
 
         {/* Content View */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto bg-[#0b0b0a]">
           <Outlet />
         </main>
       </div>

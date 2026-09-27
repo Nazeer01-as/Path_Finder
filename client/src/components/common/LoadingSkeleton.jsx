@@ -2,22 +2,28 @@ import React from 'react';
 
 export const CardSkeleton = () => {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm animate-pulse flex flex-col justify-between">
-      <div>
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <div className="h-6 w-24 bg-slate-200 rounded-full"></div>
-          <div className="h-6 w-28 bg-slate-200 rounded-full"></div>
+    <div className="bg-stone-900/80 backdrop-blur-xs rounded-2xl border border-stone-800 p-6 shadow-sm flex flex-col justify-between overflow-hidden relative">
+      <div className="animate-pulse space-y-4">
+        {/* Badges line */}
+        <div className="flex items-center justify-between gap-3">
+          <div className="h-6 w-24 bg-stone-800 rounded-full" />
+          <div className="h-6 w-28 bg-stone-800 rounded-full" />
         </div>
-        <div className="h-6 w-3/4 bg-slate-200 rounded mb-3"></div>
-        <div className="h-4 w-1/2 bg-slate-200 rounded mb-4"></div>
-        <div className="space-y-2 mb-6">
-          <div className="h-3.5 w-full bg-slate-200 rounded"></div>
-          <div className="h-3.5 w-5/6 bg-slate-200 rounded"></div>
+        {/* Title */}
+        <div className="h-6 w-3/4 bg-stone-800 rounded-lg" />
+        {/* Meta */}
+        <div className="h-4 w-1/2 bg-stone-800/80 rounded-md" />
+        {/* Pill highlight */}
+        <div className="h-10 w-full bg-stone-800/50 rounded-xl" />
+        {/* Description */}
+        <div className="space-y-2">
+          <div className="h-3.5 w-full bg-stone-800/60 rounded" />
+          <div className="h-3.5 w-4/5 bg-stone-800/60 rounded" />
         </div>
       </div>
-      <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-        <div className="h-8 w-24 bg-slate-200 rounded-lg"></div>
-        <div className="h-8 w-8 bg-slate-200 rounded-lg"></div>
+      <div className="pt-4 mt-6 border-t border-stone-800 flex items-center justify-between animate-pulse">
+        <div className="h-8 w-24 bg-stone-800 rounded-xl" />
+        <div className="h-8 w-8 bg-stone-800 rounded-xl" />
       </div>
     </div>
   );

@@ -40,8 +40,8 @@ const ScholarshipDetail = () => {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <div className="w-10 h-10 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-slate-500 text-sm">Loading scholarship details...</p>
+        <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-stone-400 text-sm">Loading scholarship details...</p>
       </div>
     );
   }
@@ -49,8 +49,8 @@ const ScholarshipDetail = () => {
   if (!scholarship) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <h2 className="text-xl font-bold text-slate-800 mb-2">Scholarship Not Found</h2>
-        <Link to="/scholarships" className="text-indigo-600 font-bold text-sm">
+        <h2 className="text-xl font-bold text-stone-100 mb-2">Scholarship Not Found</h2>
+        <Link to="/scholarships" className="text-amber-400 hover:text-amber-300 font-bold text-sm">
           ← Return to Scholarships
         </Link>
       </div>
@@ -75,13 +75,13 @@ const ScholarshipDetail = () => {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       <Link
         to="/scholarships"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-indigo-600 transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-400 hover:text-amber-400 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Scholarships Explorer
       </Link>
 
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-8">
+      <div className="bg-stone-900/80 rounded-3xl border border-stone-800 p-6 sm:p-10 shadow-xl space-y-8">
         {/* Top Header */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Badge variant="emerald" size="md">
@@ -93,13 +93,13 @@ const ScholarshipDetail = () => {
               onClick={handleBookmarkToggle}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${
                 bookmarked
-                  ? 'bg-rose-50 text-rose-600 border-rose-200'
-                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-rose-50 hover:text-rose-600'
+                  ? 'bg-rose-950/40 text-rose-400 border-rose-800/60'
+                  : 'bg-stone-800/80 text-stone-300 border-stone-700 hover:bg-rose-950/30 hover:text-rose-400 hover:border-rose-800/60'
               }`}
             >
               {bookmarked ? (
                 <>
-                  <BookmarkCheck className="w-4 h-4 text-rose-600" />
+                  <BookmarkCheck className="w-4 h-4 text-rose-400" />
                   Saved
                 </>
               ) : (
@@ -113,53 +113,53 @@ const ScholarshipDetail = () => {
         </div>
 
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 leading-snug">
+          <h1 className="text-2xl sm:text-3xl font-black text-white leading-snug">
             {scholarship.name}
           </h1>
-          <p className="text-sm font-semibold text-slate-600 mt-1 flex items-center gap-1.5">
-            <Building className="w-4 h-4 text-emerald-600" />
+          <p className="text-sm font-semibold text-stone-300 mt-1 flex items-center gap-1.5">
+            <Building className="w-4 h-4 text-emerald-400" />
             Provided by: {scholarship.provider}
           </p>
         </div>
 
         {/* Benefits & Financial Value Callout */}
-        <div className="bg-emerald-50 rounded-2xl p-6 border border-emerald-200 space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold text-emerald-800 uppercase tracking-wider">
-            <IndianRupee className="w-4 h-4 text-emerald-600" />
+        <div className="bg-emerald-950/20 rounded-2xl p-6 border border-emerald-800/40 space-y-2">
+          <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
+            <IndianRupee className="w-4 h-4 text-emerald-400" />
             Financial Benefit & Grant
           </div>
-          <p className="text-xl sm:text-2xl font-black text-emerald-950">
+          <p className="text-xl sm:text-2xl font-black text-emerald-300">
             {scholarship.benefits}
           </p>
-          <p className="text-xs text-emerald-800 font-medium pt-1">
-            <strong>Income Criteria: </strong>{scholarship.incomeCriteria}
+          <p className="text-xs text-stone-300 font-medium pt-1">
+            <strong className="text-white">Income Criteria: </strong>{scholarship.incomeCriteria}
           </p>
         </div>
 
         {/* Description */}
         <div className="space-y-3">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-stone-400">
             About the Scholarship
           </h3>
-          <p className="text-slate-700 leading-relaxed text-sm sm:text-base">
+          <p className="text-stone-300 leading-relaxed text-sm sm:text-base">
             {scholarship.description}
           </p>
         </div>
 
         {/* Eligibility Requirements */}
-        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 space-y-3">
-          <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+        <div className="bg-stone-800/40 rounded-2xl p-5 border border-stone-700/60 space-y-3">
+          <h3 className="text-sm font-bold text-stone-200 flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
             Eligibility Criteria
           </h3>
-          <p className="text-sm text-slate-700 font-medium leading-relaxed">
+          <p className="text-sm text-stone-300 font-medium leading-relaxed">
             {scholarship.eligibility}
           </p>
           {scholarship.educationLevels && scholarship.educationLevels.length > 0 && (
             <div className="pt-2 flex flex-wrap items-center gap-1.5">
-              <span className="text-xs font-semibold text-slate-600 mr-1">Applicable Stages:</span>
+              <span className="text-xs font-semibold text-stone-400 mr-1">Applicable Stages:</span>
               {scholarship.educationLevels.map((lvl, idx) => (
-                <span key={idx} className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-white text-emerald-700 border border-emerald-200">
+                <span key={idx} className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-stone-800 text-emerald-300 border border-emerald-800/50">
                   {lvl}
                 </span>
               ))}
@@ -170,14 +170,14 @@ const ScholarshipDetail = () => {
         {/* Required Documents List */}
         {scholarship.requiredDocuments && scholarship.requiredDocuments.length > 0 && (
           <div className="space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
-              <FileCheck className="w-4 h-4 text-indigo-600" />
+            <h3 className="text-sm font-bold uppercase tracking-wider text-stone-400 flex items-center gap-2">
+              <FileCheck className="w-4 h-4 text-amber-400" />
               Required Documents Checklist
             </h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {scholarship.requiredDocuments.map((doc, i) => (
-                <li key={i} className="flex items-center gap-2 p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-medium text-slate-700">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                <li key={i} className="flex items-center gap-2 p-3 rounded-xl bg-stone-800/50 border border-stone-700/60 text-xs font-medium text-stone-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
                   {doc}
                 </li>
               ))}
@@ -187,16 +187,16 @@ const ScholarshipDetail = () => {
 
         {/* Application Process */}
         {scholarship.applicationProcess && (
-          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-1.5 text-xs text-slate-700">
-            <h4 className="font-bold text-slate-900 text-sm">Application Procedure:</h4>
+          <div className="p-5 bg-stone-800/40 rounded-2xl border border-stone-700/60 space-y-1.5 text-xs text-stone-300">
+            <h4 className="font-bold text-stone-200 text-sm">Application Procedure:</h4>
             <p className="leading-relaxed">{scholarship.applicationProcess}</p>
           </div>
         )}
 
         {/* Action Button */}
-        <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+        <div className="pt-6 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-xs text-stone-400">
+            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>Apply exclusively on official government or institutional scholarship portals.</span>
           </div>
 
@@ -204,7 +204,7 @@ const ScholarshipDetail = () => {
             href={scholarship.officialWebsite}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-lg shadow-emerald-500/25 transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
           >
             Apply on Official Portal
             <ExternalLink className="w-4 h-4" />

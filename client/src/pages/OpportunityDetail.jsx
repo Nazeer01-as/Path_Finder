@@ -40,8 +40,8 @@ const OpportunityDetail = () => {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-slate-500 text-sm">Loading opportunity details...</p>
+        <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-stone-400 text-sm">Loading opportunity details...</p>
       </div>
     );
   }
@@ -49,9 +49,9 @@ const OpportunityDetail = () => {
   if (!opportunity) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <h2 className="text-xl font-bold text-slate-800 mb-2">Opportunity Not Found</h2>
-        <p className="text-sm text-slate-500 mb-6">The opportunity you are looking for does not exist or was removed.</p>
-        <Link to="/opportunities" className="text-indigo-600 font-bold text-sm">
+        <h2 className="text-xl font-bold text-stone-100 mb-2">Opportunity Not Found</h2>
+        <p className="text-sm text-stone-400 mb-6">The opportunity you are looking for does not exist or was removed.</p>
+        <Link to="/opportunities" className="text-amber-400 hover:text-amber-300 font-bold text-sm">
           ← Return to Opportunities
         </Link>
       </div>
@@ -77,14 +77,14 @@ const OpportunityDetail = () => {
       {/* Back button */}
       <Link
         to="/opportunities"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-indigo-600 transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-400 hover:text-amber-400 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Opportunity Explorer
       </Link>
 
       {/* Main Detail Header Card */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-6">
+      <div className="bg-stone-900/80 rounded-3xl border border-stone-800 p-6 sm:p-10 shadow-xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Badge variant="cyan" size="md">
             {opportunity.category}
@@ -95,13 +95,13 @@ const OpportunityDetail = () => {
               onClick={handleBookmarkToggle}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${
                 bookmarked
-                  ? 'bg-rose-50 text-rose-600 border-rose-200'
-                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200'
+                  ? 'bg-rose-950/40 text-rose-400 border-rose-800/60'
+                  : 'bg-stone-800/80 text-stone-300 border-stone-700 hover:bg-rose-950/30 hover:text-rose-400 hover:border-rose-800/60'
               }`}
             >
               {bookmarked ? (
                 <>
-                  <BookmarkCheck className="w-4 h-4 text-rose-600" />
+                  <BookmarkCheck className="w-4 h-4 text-rose-400" />
                   Saved
                 </>
               ) : (
@@ -114,21 +114,21 @@ const OpportunityDetail = () => {
           </div>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 leading-snug">
+        <h1 className="text-2xl sm:text-3xl font-black text-white leading-snug">
           {opportunity.title}
         </h1>
 
-        <div className="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-slate-600 border-y border-slate-100 py-3">
-          <span className="flex items-center gap-1.5 font-bold text-slate-800">
-            <Building2 className="w-4 h-4 text-indigo-500" />
+        <div className="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-stone-300 border-y border-stone-800/80 py-3">
+          <span className="flex items-center gap-1.5 font-bold text-stone-100">
+            <Building2 className="w-4 h-4 text-amber-400" />
             {opportunity.organization}
           </span>
-          <span className="flex items-center gap-1.5">
-            <MapPin className="w-4 h-4 text-slate-400" />
+          <span className="flex items-center gap-1.5 text-stone-400">
+            <MapPin className="w-4 h-4 text-stone-500" />
             {opportunity.location || 'All India / Online'}
           </span>
           {opportunity.opportunityType && (
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700">
+            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-stone-800 text-stone-300 border border-stone-700/60">
               {opportunity.opportunityType}
             </span>
           )}
@@ -136,28 +136,28 @@ const OpportunityDetail = () => {
 
         {/* Detailed Description */}
         <div className="space-y-3">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-stone-400">
             About This Opportunity
           </h3>
-          <p className="text-slate-700 leading-relaxed text-sm sm:text-base whitespace-pre-line">
+          <p className="text-stone-300 leading-relaxed text-sm sm:text-base whitespace-pre-line">
             {opportunity.description}
           </p>
         </div>
 
         {/* Eligibility Details Box */}
-        <div className="bg-indigo-50/60 rounded-2xl p-5 border border-indigo-100 space-y-3">
-          <h3 className="text-sm font-bold text-indigo-950 flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-indigo-600" />
+        <div className="bg-amber-950/20 rounded-2xl p-5 border border-amber-800/40 space-y-3">
+          <h3 className="text-sm font-bold text-amber-300 flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-amber-400" />
             Eligibility & Prerequisite Criteria
           </h3>
-          <p className="text-sm text-indigo-900 leading-relaxed font-medium">
+          <p className="text-sm text-stone-200 leading-relaxed font-medium">
             {opportunity.eligibility}
           </p>
           {opportunity.educationLevels && opportunity.educationLevels.length > 0 && (
             <div className="pt-2 flex flex-wrap items-center gap-1.5">
-              <span className="text-xs font-semibold text-indigo-800 mr-1">Target Stages:</span>
+              <span className="text-xs font-semibold text-amber-300/80 mr-1">Target Stages:</span>
               {opportunity.educationLevels.map((lvl, idx) => (
-                <span key={idx} className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-white text-indigo-700 border border-indigo-200">
+                <span key={idx} className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-stone-800 text-amber-300 border border-stone-700">
                   {lvl}
                 </span>
               ))}
@@ -168,12 +168,12 @@ const OpportunityDetail = () => {
         {/* Tags */}
         {opportunity.tags && opportunity.tags.length > 0 && (
           <div className="pt-2">
-            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+            <h4 className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
               Topic Tags
             </h4>
             <div className="flex flex-wrap gap-1.5">
               {opportunity.tags.map((tag, i) => (
-                <span key={i} className="text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600">
+                <span key={i} className="text-xs font-medium px-2.5 py-1 rounded-lg bg-stone-800 text-stone-300 border border-stone-700/60">
                   #{tag}
                 </span>
               ))}
@@ -182,9 +182,9 @@ const OpportunityDetail = () => {
         )}
 
         {/* Apply CTA Section */}
-        <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+        <div className="pt-6 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-xs text-stone-400">
+            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>Applications are processed directly through the official host platform.</span>
           </div>
 
@@ -192,7 +192,7 @@ const OpportunityDetail = () => {
             href={opportunity.officialWebsite}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-500/25 transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
           >
             Apply on Official Website
             <ExternalLink className="w-4 h-4" />

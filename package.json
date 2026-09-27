@@ -4,6 +4,7 @@
   "private": true,
   "description": "PathFinder - Student Opportunity & Career Pathway Platform",
   "scripts": {
+    "build": "npm --prefix client run build",
     "client:dev": "npm --prefix client run dev",
     "client:build": "npm --prefix client run build",
     "server:dev": "npm --prefix server run dev",

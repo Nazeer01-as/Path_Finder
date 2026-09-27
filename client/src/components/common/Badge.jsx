@@ -1,28 +1,53 @@
 import React from 'react';
 
-const Badge = ({ children, variant = 'primary', size = 'sm', className = '' }) => {
+const Badge = ({
+  children,
+  variant = 'primary',
+  size = 'sm',
+  dot = false,
+  className = ''
+}) => {
   const variantStyles = {
-    primary: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-    secondary: 'bg-slate-100 text-slate-700 border-slate-200',
-    cyan: 'bg-cyan-50 text-cyan-700 border-cyan-200',
-    amber: 'bg-amber-50 text-amber-700 border-amber-200',
-    emerald: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    rose: 'bg-rose-50 text-rose-700 border-rose-200',
-    purple: 'bg-purple-50 text-purple-700 border-purple-200'
+    primary: 'bg-amber-950/60 text-amber-300 border-amber-800/60 shadow-2xs',
+    secondary: 'bg-stone-800/80 text-stone-300 border-stone-700/80',
+    cyan: 'bg-amber-950/60 text-amber-300 border-amber-800/60 shadow-2xs',
+    amber: 'bg-amber-950/60 text-amber-300 border-amber-800/60 shadow-2xs',
+    emerald: 'bg-emerald-950/60 text-emerald-300 border-emerald-800/60 shadow-2xs',
+    rose: 'bg-rose-950/60 text-rose-300 border-rose-800/60 shadow-2xs',
+    purple: 'bg-orange-950/60 text-orange-300 border-orange-800/60 shadow-2xs',
+    outline: 'bg-transparent text-stone-300 border-stone-700'
+  };
+
+  const dotColors = {
+    primary: 'bg-amber-400',
+    secondary: 'bg-stone-400',
+    cyan: 'bg-amber-400',
+    amber: 'bg-amber-400',
+    emerald: 'bg-emerald-400',
+    rose: 'bg-rose-400',
+    purple: 'bg-orange-400',
+    outline: 'bg-stone-500'
   };
 
   const sizeStyles = {
-    xs: 'px-2 py-0.5 text-xs',
-    sm: 'px-2.5 py-1 text-xs',
-    md: 'px-3 py-1 text-sm'
+    xs: 'px-2 py-0.5 text-[11px] gap-1',
+    sm: 'px-2.5 py-1 text-xs gap-1.5',
+    md: 'px-3 py-1 text-xs sm:text-sm gap-1.5'
   };
 
   return (
     <span
-      className={`inline-flex items-center font-medium rounded-full border transition-colors ${
+      className={`inline-flex items-center font-bold tracking-tight rounded-full border transition-all duration-150 select-none ${
         variantStyles[variant] || variantStyles.primary
       } ${sizeStyles[size] || sizeStyles.sm} ${className}`}
     >
+      {dot && (
+        <span
+          className={`w-1.5 h-1.5 rounded-full ${
+            dotColors[variant] || dotColors.primary
+          } animate-pulse`}
+        />
+      )}
       {children}
     </span>
   );

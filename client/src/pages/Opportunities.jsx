@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, Filter, X, Sparkles, SlidersHorizontal } from 'lucide-react';
+import { Search, X, Sparkles } from 'lucide-react';
 import api from '../api/axios';
 import OpportunityCard from '../components/cards/OpportunityCard';
 import Pagination from '../components/common/Pagination';
@@ -18,7 +18,6 @@ const Opportunities = () => {
   const [category, setCategory] = useState(searchParams.get('category') || '');
   const [educationLevel, setEducationLevel] = useState(searchParams.get('educationLevel') || '');
   const [sortBy, setSortBy] = useState('createdAt');
-  const [showFilters, setShowFilters] = useState(false);
 
   const categories = [
     'All',
@@ -48,7 +47,6 @@ const Opportunities = () => {
   ];
 
   useEffect(() => {
-    // Sync URL param if changed externally
     const urlEdu = searchParams.get('educationLevel');
     if (urlEdu) setEducationLevel(urlEdu);
   }, [searchParams]);
@@ -104,39 +102,39 @@ const Opportunities = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 text-stone-200">
       {/* Header */}
       <div>
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2.5 py-1 rounded-md">
+          <span className="text-xs font-bold text-amber-300 uppercase tracking-wider bg-amber-950/60 px-2.5 py-1 rounded-md border border-amber-800/60">
             Centralized Opportunity Hub
           </span>
         </div>
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-3xl font-black text-white tracking-tight">
           Opportunity Explorer
         </h1>
-        <p className="text-slate-500 text-sm mt-1">
+        <p className="text-stone-400 text-sm mt-1">
           Explore internships, government programs, certifications, and fellowships across India.
         </p>
       </div>
 
       {/* Search & Top Controls */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs space-y-4">
+      <div className="bg-stone-900/80 rounded-2xl border border-stone-800 p-4 shadow-xs space-y-4">
         <div className="flex flex-col md:flex-row items-center gap-3">
           {/* Search bar */}
           <div className="relative flex-1 w-full">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by title, organization, skill, or keywords (e.g., ISRO, coding, fellowship)..."
-              className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 outline-hidden"
+              className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-stone-700 bg-stone-800 text-stone-100 placeholder:text-stone-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-200"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -148,7 +146,7 @@ const Opportunities = () => {
             <select
               value={educationLevel}
               onChange={(e) => setEducationLevel(e.target.value)}
-              className="w-full py-2.5 px-3 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 outline-hidden bg-white text-slate-700 font-medium"
+              className="w-full py-2.5 px-3 text-sm rounded-xl border border-stone-700 bg-stone-800 text-stone-200 focus:border-amber-500 outline-none font-medium cursor-pointer"
             >
               {educationLevels.map((lvl) => (
                 <option key={lvl} value={lvl}>
@@ -163,7 +161,7 @@ const Opportunities = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full py-2.5 px-3 text-sm rounded-xl border border-slate-200 focus:border-indigo-500 outline-hidden bg-white text-slate-700 font-medium"
+              className="w-full py-2.5 px-3 text-sm rounded-xl border border-stone-700 bg-stone-800 text-stone-200 focus:border-amber-500 outline-none font-medium cursor-pointer"
             >
               <option value="createdAt">Latest Added</option>
               <option value="deadline">Closing Soonest</option>
@@ -177,10 +175,10 @@ const Opportunities = () => {
             <button
               key={cat}
               onClick={() => setCategory(cat)}
-              className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-colors ${
+              className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-colors cursor-pointer ${
                 (category === cat || (!category && cat === 'All'))
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70'
+                  ? 'bg-amber-500 text-stone-950 font-black shadow-xs'
+                  : 'bg-stone-800/80 text-stone-400 hover:bg-stone-700 hover:text-white border border-stone-700/60'
               }`}
             >
               {cat}

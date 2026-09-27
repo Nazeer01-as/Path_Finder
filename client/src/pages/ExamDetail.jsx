@@ -42,8 +42,8 @@ const ExamDetail = () => {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <div className="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-slate-500 text-sm">Loading examination details...</p>
+        <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-stone-400 text-sm">Loading examination details...</p>
       </div>
     );
   }
@@ -51,8 +51,8 @@ const ExamDetail = () => {
   if (!exam) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <h2 className="text-xl font-bold text-slate-800 mb-2">Examination Not Found</h2>
-        <Link to="/exams" className="text-indigo-600 font-bold text-sm">
+        <h2 className="text-xl font-bold text-stone-100 mb-2">Examination Not Found</h2>
+        <Link to="/exams" className="text-amber-400 hover:text-amber-300 font-bold text-sm">
           ← Return to Examinations
         </Link>
       </div>
@@ -86,13 +86,13 @@ const ExamDetail = () => {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       <Link
         to="/exams"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-indigo-600 transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-400 hover:text-amber-400 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Examinations Explorer
       </Link>
 
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm space-y-8">
+      <div className="bg-stone-900/80 rounded-3xl border border-stone-800 p-6 sm:p-10 shadow-xl space-y-8">
         {/* Top bar */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Badge variant="purple" size="md">
@@ -104,13 +104,13 @@ const ExamDetail = () => {
               onClick={handleBookmarkToggle}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${
                 bookmarked
-                  ? 'bg-rose-50 text-rose-600 border-rose-200'
-                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-rose-50 hover:text-rose-600'
+                  ? 'bg-rose-950/40 text-rose-400 border-rose-800/60'
+                  : 'bg-stone-800/80 text-stone-300 border-stone-700 hover:bg-rose-950/30 hover:text-rose-400 hover:border-rose-800/60'
               }`}
             >
               {bookmarked ? (
                 <>
-                  <BookmarkCheck className="w-4 h-4 text-rose-600" />
+                  <BookmarkCheck className="w-4 h-4 text-rose-400" />
                   Saved
                 </>
               ) : (
@@ -125,59 +125,59 @@ const ExamDetail = () => {
 
         {/* Title & Body */}
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 leading-snug">
+          <h1 className="text-2xl sm:text-3xl font-black text-white leading-snug">
             {exam.name}
           </h1>
-          <p className="text-sm font-bold text-indigo-600 mt-1 flex items-center gap-1.5">
+          <p className="text-sm font-bold text-amber-400 mt-1 flex items-center gap-1.5">
             <Award className="w-4 h-4" />
             Conducted by: {exam.conductingBody}
           </p>
         </div>
 
         {/* Important Dates Strip */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-stone-800/50 rounded-2xl border border-stone-700/60 text-xs">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Application Starts</p>
-            <p className="font-bold text-slate-800 mt-0.5">{formatDate(exam.applicationStartDate)}</p>
+            <p className="text-[11px] font-bold text-stone-400 uppercase tracking-wider">Application Starts</p>
+            <p className="font-bold text-stone-100 mt-0.5">{formatDate(exam.applicationStartDate)}</p>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Application Closes</p>
-            <p className="font-bold text-rose-600 mt-0.5">{formatDate(exam.applicationLastDate)}</p>
+            <p className="text-[11px] font-bold text-stone-400 uppercase tracking-wider">Application Closes</p>
+            <p className="font-bold text-rose-400 mt-0.5">{formatDate(exam.applicationLastDate)}</p>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Examination Date</p>
-            <p className="font-bold text-indigo-700 mt-0.5">{formatDate(exam.examDate)}</p>
+            <p className="text-[11px] font-bold text-stone-400 uppercase tracking-wider">Examination Date</p>
+            <p className="font-bold text-amber-300 mt-0.5">{formatDate(exam.examDate)}</p>
           </div>
         </div>
 
         {/* Description */}
         <div className="space-y-3">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-stone-400">
             About the Examination
           </h3>
-          <p className="text-slate-700 leading-relaxed text-sm sm:text-base">
+          <p className="text-stone-300 leading-relaxed text-sm sm:text-base">
             {exam.description}
           </p>
         </div>
 
         {/* Eligibility & Age Limit */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-indigo-50/50 rounded-2xl p-5 border border-indigo-100 space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-indigo-600" />
+          <div className="bg-stone-800/40 rounded-2xl p-5 border border-stone-700/60 space-y-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-amber-400" />
               Eligibility Criteria
             </h4>
-            <p className="text-xs text-indigo-950 font-medium leading-relaxed">
+            <p className="text-xs text-stone-300 font-medium leading-relaxed">
               {exam.eligibility}
             </p>
           </div>
 
-          <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-              <Clock className="w-4 h-4 text-slate-500" />
+          <div className="bg-stone-800/40 rounded-2xl p-5 border border-stone-700/60 space-y-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-300 flex items-center gap-1.5">
+              <Clock className="w-4 h-4 text-stone-400" />
               Age Limit & Restrictions
             </h4>
-            <p className="text-xs text-slate-700 font-medium leading-relaxed">
+            <p className="text-xs text-stone-300 font-medium leading-relaxed">
               {exam.ageLimit}
             </p>
           </div>
@@ -185,31 +185,31 @@ const ExamDetail = () => {
 
         {/* Fee & Exam Pattern */}
         <div className="space-y-4">
-          <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-            <IndianRupee className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+          <div className="flex items-start gap-3 p-4 bg-stone-800/40 rounded-2xl border border-stone-700/60">
+            <IndianRupee className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">Application Fee</h4>
-              <p className="text-xs text-slate-600 mt-0.5">{exam.fee}</p>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-stone-300">Application Fee</h4>
+              <p className="text-xs text-stone-300 mt-0.5">{exam.fee}</p>
             </div>
           </div>
 
           {exam.examPattern && (
-            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-1.5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                <FileText className="w-4 h-4 text-indigo-600" />
+            <div className="p-5 bg-stone-800/40 rounded-2xl border border-stone-700/60 space-y-1.5">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-stone-300 flex items-center gap-1.5">
+                <FileText className="w-4 h-4 text-amber-400" />
                 Exam Pattern
               </h4>
-              <p className="text-xs text-slate-700 leading-relaxed">{exam.examPattern}</p>
+              <p className="text-xs text-stone-300 leading-relaxed">{exam.examPattern}</p>
             </div>
           )}
 
           {exam.syllabus && (
-            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-1.5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                <BookOpen className="w-4 h-4 text-purple-600" />
+            <div className="p-5 bg-stone-800/40 rounded-2xl border border-stone-700/60 space-y-1.5">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-stone-300 flex items-center gap-1.5">
+                <BookOpen className="w-4 h-4 text-purple-400" />
                 Syllabus Outline
               </h4>
-              <p className="text-xs text-slate-700 leading-relaxed">{exam.syllabus}</p>
+              <p className="text-xs text-stone-300 leading-relaxed">{exam.syllabus}</p>
             </div>
           )}
         </div>
@@ -217,7 +217,7 @@ const ExamDetail = () => {
         {/* Important Links */}
         {exam.importantLinks && exam.importantLinks.length > 0 && (
           <div className="space-y-2">
-            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <h4 className="text-xs font-bold text-stone-500 uppercase tracking-wider">
               Official Resources & Links
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -227,7 +227,7 @@ const ExamDetail = () => {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:text-indigo-600 text-xs font-medium transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-800 text-stone-300 hover:text-amber-400 text-xs font-medium border border-stone-700/60 transition-colors"
                 >
                   {link.title || 'Official Document'}
                   <ExternalLink className="w-3 h-3" />
@@ -238,9 +238,9 @@ const ExamDetail = () => {
         )}
 
         {/* CTA */}
-        <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+        <div className="pt-6 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-xs text-stone-400">
+            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>Verify current dates & notification on the official portal before applying.</span>
           </div>
 
@@ -248,7 +248,7 @@ const ExamDetail = () => {
             href={exam.officialWebsite}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm shadow-lg shadow-purple-500/25 transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
           >
             Visit Official Exam Portal
             <ExternalLink className="w-4 h-4" />
